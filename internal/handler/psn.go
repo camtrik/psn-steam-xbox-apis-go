@@ -1,15 +1,15 @@
 package handler
 
 import (
-	"github.com/camtrik/ebbilogue-backend/internal/service"
+	"github.com/camtrik/ebbilogue-backend/internal/service/psn"
 	"github.com/gin-gonic/gin"
 )
 
 type PSNHandler struct {
-	psnService *service.PSNService
+	psnService *psn.PSNService
 }
 
-func NewPSNHandler(psnService *service.PSNService) *PSNHandler {
+func NewPSNHandler(psnService *psn.PSNService) *PSNHandler {
 	return &PSNHandler{
 		psnService: psnService,
 	}
