@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"sort"
 	"strconv"
 )
 
@@ -45,9 +46,22 @@ type EarnedTrophies struct {
 	Platinum int `json:"platinum"`
 }
 
+type TrophyFilter struct {
+	MinProgress int
+	Platform    string
+	SortBy      string
+}
+
+func (s *PSNService) GetMyTitles(option *GetUserTitlesOptions) (*UserTitlesResponse, error) {
+	return s.GetUserTitles("me", option)
+}
+
+func (s *PSNService) GetMyFilteredTitles(option *GetUserTitlesOptions, filter TrophyFilter) (*UserTitlesResponse, error) {
+	return s.GetFilteredUserTitles("me", option, filter)
+}
+
 func (s *PSNService) GetUserTitles(accountId string, options *GetUserTitlesOptions) (*UserTitlesResponse, error) {
 	auth, err := s.GetValidAuthorization()
-	fmt.Println(auth)
 	if err != nil {
 		return nil, err
 	}
@@ -99,4 +113,36 @@ func (s *PSNService) GetUserTitles(accountId string, options *GetUserTitlesOptio
 	}
 
 	return &userTitlesResp, nil
+}
+
+func (s *PSNService) GetFilteredUserTitles(accountId string, option *GetUserTitlesOptions, filter TrophyFilter) (*UserTitlesResponse, error) {
+	resp, err := s.GetUserTitles(accountId, option)
+	if err != nil {
+		return nil, err
+	}
+
+	filteredTrophyTitles := make([]TrophyTitle, 0)
+
+	for _, trophyTitle := range resp.TrophyTitles {
+		if trophyTitle.Progress >= filter.MinProgress &&
+			(filter.Platform == "" || trophyTitle.TrophyTitlePlatform == filter.Platform) {
+			filteredTrophyTitles = append(filteredTrophyTitles, trophyTitle)
+		}
+	}
+
+	switch filter.SortBy {
+	case "lastUpdated":
+		sort.Slice(filteredTrophyTitles, func(i, j int) bool {
+			return filteredTrophyTitles[i].LastUpdatedDateTime > filteredTrophyTitles[j].LastUpdatedDateTime
+		})
+	case "progress":
+		sort.Slice(filteredTrophyTitles, func(i, j int) bool {
+			return filteredTrophyTitles[i].Progress > filteredTrophyTitles[j].Progress
+		})
+	}
+
+	return &UserTitlesResponse{
+		TrophyTitles:   filteredTrophyTitles,
+		TotalItemCount: len(filteredTrophyTitles),
+	}, nil
 }

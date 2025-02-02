@@ -40,7 +40,11 @@ func (c *Config) GetPSNRefreshToken() string {
 func main() {
 	// testTrophyTitle()
 	cfg := config.Load()
-	psnService := psn.NewPSNService(cfg)
+	psnService := psn.NewPSNService(
+		cfg.PSNAccountID,
+		cfg.PSNRefreshToken,
+	)
+
 	psnHandler := handler.NewPSNHandler(psnService)
 
 	r := gin.Default()
@@ -55,7 +59,11 @@ func main() {
 	}))
 
 	// Routes
-	r.GET("/api/psn/trophyTitles", psnHandler.GetUserTitles)
+	r.GET("/api/psn/me/trophyTitles", psnHandler.GetMyTitles)
+	r.GET("/api/psn/me/trophyTitles/filtered", psnHandler.GetMyFilteredTitles)
+
+	r.GET("/api/psn/:accountId/trophyTitles", psnHandler.GetUserTitles)
+	r.GET("/api/psn/:accountId/trophyTitles/filtered", psnHandler.GetUserFilteredTitles)
 
 	r.Run(":6061")
 }

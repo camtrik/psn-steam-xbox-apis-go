@@ -1,10 +1,9 @@
 package config
 
 import (
-	"log"
-	"os"
+	"fmt"
 
-	"github.com/joho/godotenv"
+	"github.com/spf13/viper"
 )
 
 type Config struct {
@@ -13,13 +12,20 @@ type Config struct {
 }
 
 func Load() *Config {
-	err := godotenv.Load(".env.local")
-	if err != nil {
-		log.Printf("Error loading .env.local file: %v", err)
+	viper.AutomaticEnv()
+
+	// 直接设置环境变量前缀（这样就不需要psn.前缀了）
+	viper.SetEnvPrefix("") // 设置环境变量前缀为空
+
+	viper.SetConfigFile(".env")
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Printf("Error reading config file: %s\n", err)
 	}
 
+	// fmt.Println("REFRESH TOKEN HERE: ", viper.GetString("PSN_REFRESH_TOKEN"))
+
 	return &Config{
-		PSNRefreshToken: os.Getenv("PSN_REFRESH_TOKEN"),
-		PSNAccountID:    os.Getenv("PSN_ACCOUNT_ID"),
+		PSNRefreshToken: viper.GetString("PSN_REFRESH_TOKEN"),
+		PSNAccountID:    viper.GetString("PSN_ACCOUNT_ID"),
 	}
 }

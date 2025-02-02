@@ -1,2 +1,5 @@
-.env.local
+.env.*
+.env
 *_test.go
+.dockerignore
+docker-compose.yml

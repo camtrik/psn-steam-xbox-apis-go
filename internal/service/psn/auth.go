@@ -54,7 +54,7 @@ func (s *PSNService) GetValidAuthorization() (*TokenData, error) {
 
 func (s *PSNService) exchangeRefreshToken() (*AuthTokensResponse, error) {
 	formData := url.Values{}
-	formData.Set("refresh_token", s.config.PSNRefreshToken)
+	formData.Set("refresh_token", s.tokenData.RefreshToken)
 	formData.Set("grant_type", "refresh_token")
 	formData.Set("token_format", "jwt")
 	formData.Set("scope", "psn:mobile.v2.core psn:clientapp")

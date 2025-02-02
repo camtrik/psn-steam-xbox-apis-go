@@ -2,8 +2,6 @@ package psn
 
 import (
 	"net/http"
-
-	"github.com/camtrik/ebbilogue-backend/internal/config"
 )
 
 var (
@@ -12,14 +10,17 @@ var (
 )
 
 type PSNService struct {
+	accountID string
 	tokenData TokenData
-	config    *config.Config
 	client    *http.Client
 }
 
-func NewPSNService(config *config.Config) *PSNService {
+func NewPSNService(accountID, refreshToken string) *PSNService {
 	return &PSNService{
-		config: config,
+		accountID: accountID,
+		tokenData: TokenData{
+			RefreshToken: refreshToken,
+		},
 		client: &http.Client{},
 	}
 }
