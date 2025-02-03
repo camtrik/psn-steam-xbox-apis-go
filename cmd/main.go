@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/camtrik/ebbilogue-backend/internal/config"
 	"github.com/camtrik/ebbilogue-backend/internal/handler"
 	"github.com/camtrik/ebbilogue-backend/internal/service/psn"
@@ -38,8 +40,16 @@ func (c *Config) GetPSNRefreshToken() string {
 // }
 
 func main() {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Printf("Application panicked: %v", r)
+		}
+	}()
 	// testTrophyTitle()
+	log.Printf("Application starting...")
 	cfg := config.Load()
+	log.Printf("Config loaded: PSN_ACCOUNT_ID exists: %v", cfg.PSNAccountID != "")
+
 	psnService := psn.NewPSNService(
 		cfg.PSNAccountID,
 		cfg.PSNRefreshToken,
@@ -66,4 +76,9 @@ func main() {
 	r.GET("/api/psn/:accountId/trophyTitles/filtered", psnHandler.GetUserFilteredTitles)
 
 	r.Run(":6061")
+
+	log.Printf("Server starting on port 6061...")
+	if err := r.Run(":6061"); err != nil {
+		log.Fatalf("Server failed to start: %v", err)
+	}
 }

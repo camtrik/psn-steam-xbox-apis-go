@@ -3,3 +3,4 @@
 *_test.go
 .dockerignore
 docker-compose.yml
+*.old
