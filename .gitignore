@@ -1,4 +1,4 @@
-.env.*
+.env.local
 .env
 *_test.go
 .dockerignore

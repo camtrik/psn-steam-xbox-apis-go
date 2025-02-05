@@ -1,4 +1,4 @@
-package config
+package global
 
 import (
 	"fmt"
@@ -8,7 +8,8 @@ import (
 
 type Config struct {
 	PSNRefreshToken string
-	PSNAccountID    string
+	RedisUrl        string
+	RedisPassword   string
 }
 
 func Load() *Config {
@@ -26,6 +27,7 @@ func Load() *Config {
 
 	return &Config{
 		PSNRefreshToken: viper.GetString("PSN_REFRESH_TOKEN"),
-		PSNAccountID:    viper.GetString("PSN_ACCOUNT_ID"),
+		RedisUrl:        viper.GetString("REDIS_URL"),
+		RedisPassword:   viper.GetString("REDIS_PASSWORD"),
 	}
 }

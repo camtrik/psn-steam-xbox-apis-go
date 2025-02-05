@@ -1,3 +1,4 @@
+// internal/service/psn/auth.go
 package psn
 
 import (

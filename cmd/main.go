@@ -2,12 +2,17 @@ package main
 
 import (
 	"log"
+	"os"
 
-	"github.com/camtrik/ebbilogue-backend/internal/config"
+	helper "github.com/camtrik/ebbilogue-backend/internal"
+	"github.com/camtrik/ebbilogue-backend/internal/cache"
+	"github.com/camtrik/ebbilogue-backend/internal/global"
 	"github.com/camtrik/ebbilogue-backend/internal/handler"
+	"github.com/camtrik/ebbilogue-backend/internal/pkg/logger"
 	"github.com/camtrik/ebbilogue-backend/internal/service/psn"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 type Config struct {
@@ -40,21 +45,26 @@ func (c *Config) GetPSNRefreshToken() string {
 // }
 
 func main() {
-	defer func() {
-		if r := recover(); r != nil {
-			log.Printf("Application panicked: %v", r)
-		}
-	}()
+	zapLogger, err := zap.NewProduction()
+	// zapLogger, err := zap.NewDevelopment()
+
+	if err != nil {
+		log.Fatalf("Failed to initialize logger: %v", err)
+		os.Exit(1)
+	}
+	defer zapLogger.Sync()
+
+	logger := logger.NewLogger(zapLogger.Sugar())
+
 	// testTrophyTitle()
-	log.Printf("Application starting...")
-	cfg := config.Load()
-	log.Printf("Config loaded: PSN_ACCOUNT_ID exists: %v", cfg.PSNAccountID != "")
+	cfg := global.Load()
 
-	psnService := psn.NewPSNService(
-		cfg.PSNAccountID,
-		cfg.PSNRefreshToken,
-	)
+	rdb := helper.InitRedis(cfg)
 
+	httpClient := helper.InitHttpClient()
+
+	psnCache := cache.NewRedisPSNCache(rdb)
+	psnService := psn.NewPSNService(httpClient, psnCache, logger, cfg.PSNRefreshToken)
 	psnHandler := handler.NewPSNHandler(psnService)
 
 	r := gin.Default()
@@ -77,8 +87,5 @@ func main() {
 
 	r.Run(":6061")
 
-	log.Printf("Server starting on port 6061...")
-	if err := r.Run(":6061"); err != nil {
-		log.Fatalf("Server failed to start: %v", err)
-	}
+	logger.Info("Start server on port 6061")
 }

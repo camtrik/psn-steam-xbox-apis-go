@@ -2,25 +2,31 @@ package psn
 
 import (
 	"net/http"
+
+	"github.com/camtrik/ebbilogue-backend/internal/cache"
+	"github.com/camtrik/ebbilogue-backend/internal/global"
+	"github.com/camtrik/ebbilogue-backend/internal/pkg/logger"
 )
 
 var (
-	AuthBaseURL   = "https://ca.account.sony.com/api/authz/v3/oauth"
-	TrophyBaseURL = "https://m.np.playstation.com/api/trophy"
+	AuthBaseURL   = global.AUTH_BASE_URL
+	TrophyBaseURL = global.TROPHY_BASE_URL
 )
 
 type PSNService struct {
-	accountID string
-	tokenData TokenData
 	client    *http.Client
+	cache     cache.PSNCache
+	tokenData TokenData
+	logger    logger.Logger
 }
 
-func NewPSNService(accountID, refreshToken string) *PSNService {
+func NewPSNService(client *http.Client, cache cache.PSNCache, logger logger.Logger, refreshToken string) *PSNService {
 	return &PSNService{
-		accountID: accountID,
+		client: client,
+		cache:  cache,
+		logger: logger,
 		tokenData: TokenData{
 			RefreshToken: refreshToken,
 		},
-		client: &http.Client{},
 	}
 }
