@@ -18,6 +18,7 @@ const (
 const (
 	PSN_AUTH_BASE_URL   = "https://ca.account.sony.com/api/authz/v3/oauth"
 	PSN_TROPHY_BASE_URL = "https://m.np.playstation.com/api/trophy"
+	PSN_STORE_BASE_URL  = "https://www.playstation.com/en-hk/games"
 )
 
 // steam
@@ -25,6 +26,8 @@ const (
 	STEAM_API_BASE_URL = "http://api.steampowered.com"
 
 	STEAM_ICON_BASE_URL = "https://media.steampowered.com/steamcommunity/public/images/apps"
+
+	STEAM_STORE_BASE_URL = "https://store.steampowered.com/app"
 
 	STEAM_CAPSULE_BASE_URL   = "https://cdn.cloudflare.steamstatic.com/steam/apps"
 	STEAM_CAPSULE_ART_SMALL  = "capsule_231x87.jpg"

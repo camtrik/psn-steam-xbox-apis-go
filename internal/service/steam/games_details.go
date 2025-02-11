@@ -3,6 +3,7 @@ package steam
 import (
 	"context"
 	"fmt"
+	"sort"
 	"sync"
 
 	"github.com/camtrik/ebbilogue-backend/internal/global"
@@ -22,9 +23,10 @@ type GameDetails struct {
 	TotalAchievenments int
 	IconUrl            string
 	ArtUrl             string
+	StoreUrl           string
 }
 
-func (s *SteamService) GetPlayerGameDetails(ctx context.Context, steamId string) (PlayerGameDetails, error) {
+func (s *SteamService) GetPlayerGameDetails(ctx context.Context, steamId string, minPlayTime int, sortByTime bool) (PlayerGameDetails, error) {
 	ownedGames, err := s.GetOwnedGames(ctx, steamId)
 	if err != nil {
 		return PlayerGameDetails{}, err
@@ -38,6 +40,10 @@ func (s *SteamService) GetPlayerGameDetails(ctx context.Context, steamId string)
 	)
 
 	for _, game := range ownedGames.Response.Games {
+		if minPlayTime > 0 && game.PlayTimeForever < minPlayTime {
+			continue
+		}
+
 		wg.Add(1)
 		go func(game models.SteamGame) {
 			defer wg.Done()
@@ -49,7 +55,7 @@ func (s *SteamService) GetPlayerGameDetails(ctx context.Context, steamId string)
 
 			imgIconUrl := fmt.Sprintf("%s/%d/%s.jpg", global.STEAM_ICON_BASE_URL, game.AppId, game.ImgIconUrl)
 			imgArtUrl := fmt.Sprintf("%s/%d/%s", global.STEAM_CAPSULE_BASE_URL, game.AppId, global.STEAM_CAPSULE_ART_LARGE)
-
+			storeUrl := fmt.Sprintf("%s/%d", global.STEAM_STORE_BASE_URL, game.AppId)
 			mu.Lock()
 			games = append(games, GameDetails{
 				AppId:              game.AppId,
@@ -59,14 +65,21 @@ func (s *SteamService) GetPlayerGameDetails(ctx context.Context, steamId string)
 				TotalAchievenments: totalAchievements,
 				IconUrl:            imgIconUrl,
 				ArtUrl:             imgArtUrl,
+				StoreUrl:           storeUrl,
 			})
 			mu.Unlock()
 		}(game)
 	}
 	wg.Wait()
 
+	if sortByTime {
+		sort.Slice(games, func(i, j int) bool {
+			return games[i].PlayTime > games[j].PlayTime
+		})
+	}
+
 	return PlayerGameDetails{
-		GameCount: ownedGames.Response.GameCount,
+		GameCount: len(games),
 		Games:     games,
 	}, nil
 }

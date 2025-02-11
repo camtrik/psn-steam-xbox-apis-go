@@ -59,13 +59,18 @@ func (h *SteamHandler) GetPlayerAchievements(c *gin.Context) {
 
 func (h *SteamHandler) GetPlayerGameDetails(c *gin.Context) {
 	steamId := c.Param("steamId")
+	minPlayTimeStr := c.Query("minPlayTime")
+	sortByTimeStr := c.Query("sortByTime")
+
+	minPlayTime, _ := strconv.Atoi(minPlayTimeStr)
+	sortByTime := sortByTimeStr == "true"
 
 	if steamId == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "steamId is required"})
 		return
 	}
 
-	resp, err := h.steamService.GetPlayerGameDetails(c.Request.Context(), steamId)
+	resp, err := h.steamService.GetPlayerGameDetails(c.Request.Context(), steamId, minPlayTime, sortByTime)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
