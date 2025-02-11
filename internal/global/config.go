@@ -8,6 +8,7 @@ import (
 
 type Config struct {
 	PSNRefreshToken string
+	SteamApiKey     string
 	RedisUrl        string
 	RedisPassword   string
 }
@@ -27,6 +28,7 @@ func Load() *Config {
 
 	return &Config{
 		PSNRefreshToken: viper.GetString("PSN_REFRESH_TOKEN"),
+		SteamApiKey:     viper.GetString("STEAM_API_KEY"),
 		RedisUrl:        viper.GetString("REDIS_URL"),
 		RedisPassword:   viper.GetString("REDIS_PASSWORD"),
 	}

@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	AuthBaseURL   = global.AUTH_BASE_URL
-	TrophyBaseURL = global.TROPHY_BASE_URL
+	AuthBaseURL   = global.PSN_AUTH_BASE_URL
+	TrophyBaseURL = global.PSN_TROPHY_BASE_URL
 )
 
 type PSNService struct {

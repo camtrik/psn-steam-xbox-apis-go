@@ -10,6 +10,7 @@ import (
 	"github.com/camtrik/ebbilogue-backend/internal/handler"
 	"github.com/camtrik/ebbilogue-backend/internal/pkg/logger"
 	"github.com/camtrik/ebbilogue-backend/internal/service/psn"
+	"github.com/camtrik/ebbilogue-backend/internal/service/steam"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -67,6 +68,10 @@ func main() {
 	psnService := psn.NewPSNService(httpClient, psnCache, logger, cfg.PSNRefreshToken)
 	psnHandler := handler.NewPSNHandler(psnService)
 
+	steamCache := cache.NewRedisSteamCache(rdb)
+	steamService := steam.NewSteamService(httpClient, *steamCache, logger, cfg.SteamApiKey)
+	steamHandler := handler.NewSteamHandler(steamService)
+
 	r := gin.Default()
 
 	// CORS
@@ -78,12 +83,17 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	// Routes
+	// psn
 	r.GET("/api/psn/me/trophyTitles", psnHandler.GetMyTitles)
 	r.GET("/api/psn/me/trophyTitles/filtered", psnHandler.GetMyFilteredTitles)
 
 	r.GET("/api/psn/:accountId/trophyTitles", psnHandler.GetUserTitles)
 	r.GET("/api/psn/:accountId/trophyTitles/filtered", psnHandler.GetUserFilteredTitles)
+
+	// steam
+	r.GET("/api/steam/:steamId/ownedGames", steamHandler.GetOwnedGames)
+	r.GET("/api/steam/:steamId/playerAchievements/:appId", steamHandler.GetPlayerAchievements)
+	r.GET("/api/steam/:steamId/playerGameDetails", steamHandler.GetPlayerGameDetails)
 
 	r.Run(":6061")
 
