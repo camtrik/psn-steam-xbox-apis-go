@@ -1,17 +1,29 @@
-# EbbiLogue Backend
+# PSN Steam API in Go 
 
-A backend system for My personal website [EbbiLogue](https://ebbilogue.com)
-frontend code [here](https://github.com/camtrik/ebbilogue)
+A backend service aggregating PlayStation Network and Steam gaming data through their official APIs. Provides unified endpoints for tracking game progress, achievements and trophies across platforms.
 
-## Features
-- PSN trophy data fetching (filtering, sorting, pagination)
-- Steam game library and achievements tracking
-- Redis caching support for better performance
-- Cross-platform gaming progress tracking
+**Current Status**: 🚧 In active development - Core PSN/Steam integrations working, more features and documentation WIP
 
-## TODO 
-[] AI Chat Avatar  
-[] Comment System
+> Live Demo: [Gaming Progress Dashboard](https://www.ebbilogue.com/gaming)
+
+## Key Features
+- 📦 PSN user authentication & trophy data fetching 
+- 🎮 Steam game library & achievements tracking
+- ⚡ Redis caching for high-performance queries
+- 🌉 Cross-platform gaming progress aggregation
+
+## Development Status
+
+### Implemented
+✅ PSN Authentication & Trophy Title Listing  
+✅ Steam Game Library Retrieval  
+✅ Basic Caching Mechanism
+
+### In Progress
+🛠️ More APIs implementation  
+🛠️ Rate Limiting for API Endpoints  
+🛠️ Comprehensive API Documentation  
+🛠️ Better Error Handling
 
 ## Prerequisites
 - Go 1.22
@@ -45,7 +57,7 @@ How to get steam api key: [here](https://steamcommunity.com/dev)
 ### PSN Endpoints
 
 #### GetUserTitles
-```http
+```
 http://localhost:6061/api/psn/:accountId/trophyTitles
 ```
 Get user's PSN trophy titles with filtering and pagination options.
@@ -60,19 +72,19 @@ Query Parameters:
 ### Steam Endpoints
 
 #### GetOwnedGames
-```http
+```
 http://localhost:6061/api/steam/:steamId/ownedGames
 ```
 Get user's owned Steam games.
 
 #### GetPlayerAchievements
-```http
+```
 http://localhost:6061/api/steam/:steamId/playerAchievements/:appId
 ```
 Get achievements for a specific game.
 
 #### GetPlayerGameDetails
-```http
+```
 http://localhost:6061/api/steam/:steamId/playerGameDetails
 ```
 Get detailed information about player's games including achievements and playtime, game logo & banner art.
