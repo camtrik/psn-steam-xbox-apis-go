@@ -38,6 +38,7 @@ func applyPagination(titles []models.TrophyTitle, totalItems int, options *model
 }
 
 func applyFilter(titles []models.TrophyTitle, filter models.TrophyFilter) []models.TrophyTitle {
+	fmt.Println("Checking filter.... ")
 	if (filter.MinProgress == 0) && (filter.Platform == "") && (filter.SortBy == "") {
 		return titles
 	}
@@ -65,29 +66,19 @@ func applyFilter(titles []models.TrophyTitle, filter models.TrophyFilter) []mode
 	return filteredTrophyTitles
 }
 
-func (s *PSNService) GetMyTitles(ctx context.Context, options *models.GetUserTitlesOptions) (*models.UserTitlesResponse, error) {
-	s.logger.Debugf("Getting trophies for current user with options: %+v", options)
-	return s.GetUserTitles(ctx, "me", options)
-}
-
-func (s *PSNService) GetMyFilteredTitles(ctx context.Context, options *models.GetUserTitlesOptions, filter models.TrophyFilter) (*models.UserTitlesResponse, error) {
-	s.logger.Debugf("Getting filtered trophies for current user with filter: %+v", filter)
-	return s.GetFilteredUserTitles(ctx, "me", options, filter)
-}
-
-func (s *PSNService) GetUserTitles(ctx context.Context, accountId string, options *models.GetUserTitlesOptions) (*models.UserTitlesResponse, error) {
+func (s *PSNService) GetUserTitles(ctx context.Context, accountId string, options *models.GetUserTitlesOptions, filter models.TrophyFilter) (*models.UserTitlesResponse, error) {
 	// fetch from cache
 	startTime := time.Now()
 	s.logger.Infof("Fetching trophies for user %s with options: %+v", accountId, options)
 
 	if cached, err := s.cache.GetUserTitles(ctx, accountId); err == nil && cached != nil {
 		s.logger.Debugf("Cache hit for user %s", accountId)
-		pagedTitles := applyPagination(cached.TrophyTitles, cached.TotalItemCount, options)
+		filteredTitles := applyFilter(cached.TrophyTitles, filter)
+		pagedTitles := applyPagination(filteredTitles, len(filteredTitles), options)
 		return &models.UserTitlesResponse{
 			TrophyTitles:   pagedTitles,
-			TotalItemCount: cached.TotalItemCount,
+			TotalItemCount: len(pagedTitles),
 		}, nil
-
 	}
 
 	s.logger.Debug("Cache miss for user %s", accountId)
@@ -106,32 +97,16 @@ func (s *PSNService) GetUserTitles(ctx context.Context, accountId string, option
 	}
 
 	// apply pagaination and return
-	pagedTitles := applyPagination(titles.TrophyTitles, len(titles.TrophyTitles), options)
+	filteredTitles := applyFilter(titles.TrophyTitles, filter)
+	pagedTitles := applyPagination(filteredTitles, len(filteredTitles), options)
 	s.logger.Infof("Retrieved %d trophies from cache for user %s (took %v)",
 		len(pagedTitles), accountId, time.Since(startTime))
 
 	return &models.UserTitlesResponse{
 		TrophyTitles:   pagedTitles,
-		TotalItemCount: len(titles.TrophyTitles),
+		TotalItemCount: len(filteredTitles),
 	}, nil
 
-}
-
-func (s *PSNService) GetFilteredUserTitles(ctx context.Context, accountId string, options *models.GetUserTitlesOptions, filter models.TrophyFilter) (*models.UserTitlesResponse, error) {
-	// no pagination here
-	allTitles, err := s.GetUserTitles(ctx, accountId, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	filteredTitles := applyFilter(allTitles.TrophyTitles, filter)
-
-	result := &models.UserTitlesResponse{
-		TrophyTitles:   applyPagination(filteredTitles, len(filteredTitles), options),
-		TotalItemCount: len(filteredTitles),
-	}
-
-	return result, nil
 }
 
 func (s *PSNService) fetchUserTitles(ctx context.Context, accountId string) (*models.UserTitlesResponse, error) {

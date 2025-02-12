@@ -84,11 +84,7 @@ func main() {
 	}))
 
 	// psn
-	r.GET("/api/psn/me/trophyTitles", psnHandler.GetMyTitles)
-	r.GET("/api/psn/me/trophyTitles/filtered", psnHandler.GetMyFilteredTitles)
-
 	r.GET("/api/psn/:accountId/trophyTitles", psnHandler.GetUserTitles)
-	r.GET("/api/psn/:accountId/trophyTitles/filtered", psnHandler.GetUserFilteredTitles)
 
 	// steam
 	r.GET("/api/steam/:steamId/ownedGames", steamHandler.GetOwnedGames)

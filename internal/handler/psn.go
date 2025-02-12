@@ -60,48 +60,12 @@ func (h *PSNHandler) parseFilter(c *gin.Context) models.TrophyFilter {
 	return filter
 }
 
-// Get My Trophies
-func (h *PSNHandler) GetMyTitles(c *gin.Context) {
-	options := h.parseOptions(c)
-	resp, err := h.psnService.GetMyTitles(c.Request.Context(), options)
-	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(200, resp)
-}
-
 // Get User Trophies by accountId
 func (h *PSNHandler) GetUserTitles(c *gin.Context) {
+	filter := h.parseFilter(c)
 	accountId := c.Param("accountId")
 	options := h.parseOptions(c)
-	resp, err := h.psnService.GetUserTitles(c.Request.Context(), accountId, options)
-	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(200, resp)
-}
-
-// Get My Filtered Trophies
-func (h *PSNHandler) GetMyFilteredTitles(c *gin.Context) {
-	options := h.parseOptions(c)
-	filter := h.parseFilter(c)
-	resp, err := h.psnService.GetMyFilteredTitles(c.Request.Context(), options, filter)
-	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(200, resp)
-}
-
-// Get User Filtered Trophies by accountId
-func (h *PSNHandler) GetUserFilteredTitles(c *gin.Context) {
-	accountId := c.Param("accountId")
-	options := h.parseOptions(c)
-	filter := h.parseFilter(c)
-
-	resp, err := h.psnService.GetFilteredUserTitles(c.Request.Context(), accountId, options, filter)
+	resp, err := h.psnService.GetUserTitles(c.Request.Context(), accountId, options, filter)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
