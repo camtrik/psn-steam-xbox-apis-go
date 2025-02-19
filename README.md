@@ -4,7 +4,7 @@ A backend service aggregating PlayStation Network and Steam gaming data through 
 
 **Current Status**: 🚧 In active development - Core PSN/Steam integrations working, more features and documentation WIP
 
-> Live Demo: [Gaming Progress Dashboard](https://www.ebbilogue.com/gaming)
+> Live Demo using these APIs (frontend [here](https://github.com/camtrik/psn-steam-api-go)): [Gaming Profile](https://www.ebbilogue.com/gaming)
 
 ## Key Features
 - 📦 PSN user authentication & trophy data fetching 
