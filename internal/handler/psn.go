@@ -4,8 +4,8 @@ package handler
 import (
 	"strconv"
 
-	"github.com/camtrik/ebbilogue-backend/internal/models"
-	"github.com/camtrik/ebbilogue-backend/internal/service/psn"
+	"github.com/camtrik/psn-steam-api/internal/models"
+	"github.com/camtrik/psn-steam-api/internal/service/psn"
 	"github.com/gin-gonic/gin"
 )
 

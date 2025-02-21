@@ -9,7 +9,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/camtrik/ebbilogue-backend/internal/models"
+	"github.com/camtrik/psn-steam-api/internal/models"
 )
 
 func applyPagination(titles []models.TrophyTitle, totalItems int, options *models.GetUserTitlesOptions) []models.TrophyTitle {

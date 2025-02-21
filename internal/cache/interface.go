@@ -3,7 +3,7 @@ package cache
 import (
 	"context"
 
-	"github.com/camtrik/ebbilogue-backend/internal/models"
+	"github.com/camtrik/psn-steam-api/internal/models"
 )
 
 type PSNCache interface {

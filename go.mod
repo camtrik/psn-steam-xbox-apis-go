@@ -1,8 +1,9 @@
-module github.com/camtrik/ebbilogue-backend
+module github.com/camtrik/psn-steam-api
 
 go 1.22.0
 
 require (
+	github.com/camtrik/psn-steam-api v0.0.0-20250219130936-848bc393b08d
 	github.com/gin-contrib/cors v1.7.3
 	github.com/gin-gonic/gin v1.10.0
 	github.com/redis/go-redis/v9 v9.7.0

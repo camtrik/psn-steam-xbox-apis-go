@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/camtrik/ebbilogue-backend/internal/global"
+	"github.com/camtrik/psn-steam-api/internal/global"
 	"github.com/redis/go-redis/v9"
 )
 

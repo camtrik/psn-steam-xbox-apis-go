@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/camtrik/ebbilogue-backend/internal/service/steam"
+	"github.com/camtrik/psn-steam-api/internal/service/steam"
 	"github.com/gin-gonic/gin"
 )
 

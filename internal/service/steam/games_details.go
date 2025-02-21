@@ -6,8 +6,8 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/camtrik/ebbilogue-backend/internal/global"
-	"github.com/camtrik/ebbilogue-backend/internal/models"
+	"github.com/camtrik/psn-steam-api/internal/global"
+	"github.com/camtrik/psn-steam-api/internal/models"
 )
 
 type PlayerGameDetails struct {

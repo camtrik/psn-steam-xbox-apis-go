@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/camtrik/ebbilogue-backend/internal/global"
-	"github.com/camtrik/ebbilogue-backend/internal/models"
+	"github.com/camtrik/psn-steam-api/internal/global"
+	"github.com/camtrik/psn-steam-api/internal/models"
 	"github.com/redis/go-redis/v9"
 )
 

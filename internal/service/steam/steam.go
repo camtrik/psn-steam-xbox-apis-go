@@ -3,9 +3,9 @@ package steam
 import (
 	"net/http"
 
-	"github.com/camtrik/ebbilogue-backend/internal/cache"
-	"github.com/camtrik/ebbilogue-backend/internal/global"
-	"github.com/camtrik/ebbilogue-backend/internal/pkg/logger"
+	"github.com/camtrik/psn-steam-api/internal/cache"
+	"github.com/camtrik/psn-steam-api/internal/global"
+	"github.com/camtrik/psn-steam-api/internal/pkg/logger"
 )
 
 var (
