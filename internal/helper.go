@@ -32,6 +32,6 @@ func InitRedis(cfg *global.Config) *redis.Client {
 
 func InitHttpClient() *http.Client {
 	return &http.Client{
-		Timeout: time.Second * 10,
+		Timeout: time.Second * 30,
 	}
 }

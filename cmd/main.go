@@ -91,7 +91,7 @@ func main() {
 	r.GET("/api/steam/:steamId/playerAchievements/:appId", steamHandler.GetPlayerAchievements)
 	r.GET("/api/steam/:steamId/playerGameDetails", steamHandler.GetPlayerGameDetails)
 
-	r.Run(":6061")
+	r.Run(":7071")
 
 	logger.Info("Start server on port 6061")
 }

@@ -58,7 +58,7 @@ How to get steam api key: [here](https://steamcommunity.com/dev)
 
 #### GetUserTitles
 ```
-http://localhost:6061/api/psn/:accountId/trophyTitles
+http://localhost:7071/api/psn/:accountId/trophyTitles
 ```
 Get user's PSN trophy titles with filtering and pagination options.
 
@@ -73,19 +73,19 @@ Query Parameters:
 
 #### GetOwnedGames
 ```
-http://localhost:6061/api/steam/:steamId/ownedGames
+http://localhost:7071/api/steam/:steamId/ownedGames
 ```
 Get user's owned Steam games.
 
 #### GetPlayerAchievements
 ```
-http://localhost:6061/api/steam/:steamId/playerAchievements/:appId
+http://localhost:7071/api/steam/:steamId/playerAchievements/:appId
 ```
 Get achievements for a specific game.
 
 #### GetPlayerGameDetails
 ```
-http://localhost:6061/api/steam/:steamId/playerGameDetails
+http://localhost:7071/api/steam/:steamId/playerGameDetails
 ```
 Get detailed information about player's games including achievements and playtime, game logo & banner art.
 
