@@ -90,6 +90,7 @@ func main() {
 	r.GET("/api/steam/:steamId/ownedGames", steamHandler.GetOwnedGames)
 	r.GET("/api/steam/:steamId/playerAchievements/:appId", steamHandler.GetPlayerAchievements)
 	r.GET("/api/steam/:steamId/playerGameDetails", steamHandler.GetPlayerGameDetails)
+	r.GET("/api/steam/:steamId/recentlyPlayed", steamHandler.GetRecentlyPlayedGames)
 
 	r.Run(":7071")
 

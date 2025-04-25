@@ -15,17 +15,6 @@ type PlayerGameDetails struct {
 	Games     []GameDetails
 }
 
-type GameDetails struct {
-	AppId              int
-	Name               string
-	PlayTime           int
-	Achieved           int
-	TotalAchievenments int
-	IconUrl            string
-	ArtUrl             string
-	StoreUrl           string
-}
-
 func (s *SteamService) GetPlayerGameDetails(ctx context.Context, steamId string, minPlayTime int, sortByTime bool) (PlayerGameDetails, error) {
 	ownedGames, err := s.GetOwnedGames(ctx, steamId)
 	if err != nil {

@@ -27,3 +27,15 @@ func NewSteamService(client *http.Client, cache cache.RedisSteamCache, logger lo
 		apiKey: apiKey,
 	}
 }
+
+type GameDetails struct {
+	AppId              int
+	Name               string
+	PlayTime           int
+	PlayTime2weeks     int
+	Achieved           int
+	TotalAchievenments int
+	IconUrl            string
+	ArtUrl             string
+	StoreUrl           string
+}

@@ -5,7 +5,7 @@ type SteamGame struct {
 	Name            string `json:"name"`
 	ImgIconUrl      string `json:"img_icon_url"`
 	PlayTimeForever int    `json:"playtime_forever"`
-	RTimeLastPlayed int    `json:"rtime_last_played"`
+	RTimeLastPlayed int64  `json:"rtime_last_played"`
 }
 
 type OwnedGamesResponse struct {
@@ -26,4 +26,14 @@ type PlayerAchievementsResponse struct {
 		} `json:"achievements"`
 		Success bool `json:"success"`
 	} `json:"playerstats"`
+}
+
+type RecentlyPlayedGame struct {
+	AppId          int
+	Name           string
+	PlayTime       int
+	LastPlayedTime int64
+	IconUrl        string
+	ArtUrl         string
+	StoreUrl       string
 }
