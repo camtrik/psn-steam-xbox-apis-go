@@ -106,3 +106,31 @@ Query Parameters:
     - two_weeks: Games played within the last 2 weeks.
     - one_month: Games played within the last 1 month.
     - three_months: Games played within the last 3 months.
+
+
+### Xbox Endpoints 
+To use Xbox endpoints, you need to first get an api key from [OPENXBL]()
+
+#### GetPlayerAchievements
+```
+http://localhost:7071/api/xbox/achievements
+```
+Get the user's Xbox achievements across games.
+
+#### GetGameStats
+```
+http://localhost:7071/api/xbox/gameStats/:titleId
+```
+Get detailed statistics for a specific Xbox game.
+
+#### GetRecentlyPlayedGames
+```
+http://localhost:7071/api/xbox/recentlyPlayedGames
+```
+Get user's recently played Xbox games.
+
+Query Parameters:
+- `timeRange`: (string) Optional. Time range to filter games played within this timeframe. Available options are:
+    - two_weeks: Games played within the last 2 weeks.
+    - one_month: Games played within the last 1 month.
+    - three_months: Games played within the last 3 months.

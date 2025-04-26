@@ -89,6 +89,7 @@ func main() {
 
 	// psn
 	r.GET("/api/psn/:accountId/trophyTitles", psnHandler.GetUserTitles)
+	r.GET("/api/psn/:accountId/recentlyPlayed", psnHandler.GetRecentlyPlayedGames)
 
 	// steam
 	r.GET("/api/steam/:steamId/ownedGames", steamHandler.GetOwnedGames)

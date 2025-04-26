@@ -40,6 +40,7 @@ func (s *PSNService) GetValidAuthorization() (*TokenData, error) {
 	if s.tokenData.AccessToken == "" || s.tokenData.ExpiresAt.Before(now) {
 		newAuth, err := s.exchangeRefreshToken()
 		if err != nil {
+			s.logger.Errorf("failed to refresh token: %v", err)
 			return nil, fmt.Errorf("failed to refresh token: %v", err)
 		}
 
@@ -72,6 +73,11 @@ func (s *PSNService) exchangeRefreshToken() (*AuthTokensResponse, error) {
 	resp, err := s.client.Do(req)
 	if err != nil {
 		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		s.logger.Errorf("failed to get access token: %v", resp.Status)
+		return nil, fmt.Errorf("failed to refresh token: %v", resp.Status)
 	}
 	defer resp.Body.Close()
 

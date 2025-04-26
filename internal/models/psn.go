@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type GetUserTitlesOptions struct {
 	Limit  *int
 	Offset *int
@@ -20,7 +22,7 @@ type TrophyTitle struct {
 	DefinedTrophies     DefinedTrophies `json:"definedTrophies"`
 	Progress            int             `json:"progress"`
 	EarnedTrophies      EarnedTrophies  `json:"earnedTrophies"`
-	LastUpdatedDateTime string          `json:"lastUpdatedDateTime"`
+	LastUpdatedDateTime time.Time       `json:"lastUpdatedDateTime"`
 }
 
 type DefinedTrophies struct {

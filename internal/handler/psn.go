@@ -72,3 +72,28 @@ func (h *PSNHandler) GetUserTitles(c *gin.Context) {
 	}
 	c.JSON(200, resp)
 }
+
+func (h *PSNHandler) GetRecentlyPlayedGames(c *gin.Context) {
+	accountId := c.Param("accountId")
+	timeRangeStr := c.Query("timeRange")
+
+	var timeRange int64
+	switch timeRangeStr {
+	case "two_weeks":
+		timeRange = 14 * 24 * 60 * 60
+	case "one_month":
+		timeRange = 30 * 24 * 60 * 60
+	case "three_months":
+		timeRange = 90 * 24 * 60 * 60
+	default:
+		timeRange = 30 * 24 * 60 * 60
+	}
+
+	resp, err := h.psnService.GetRecentlyPlayedGames(c.Request.Context(), accountId, timeRange)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, resp)
+
+}

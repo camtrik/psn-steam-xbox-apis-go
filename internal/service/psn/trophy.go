@@ -55,7 +55,7 @@ func applyFilter(titles []models.TrophyTitle, filter models.TrophyFilter) []mode
 	switch filter.SortBy {
 	case "lastUpdated":
 		sort.Slice(filteredTrophyTitles, func(i, j int) bool {
-			return filteredTrophyTitles[i].LastUpdatedDateTime > filteredTrophyTitles[j].LastUpdatedDateTime
+			return filteredTrophyTitles[i].LastUpdatedDateTime.Unix() > filteredTrophyTitles[j].LastUpdatedDateTime.Unix()
 		})
 	case "progress":
 		sort.Slice(filteredTrophyTitles, func(i, j int) bool {
@@ -110,7 +110,9 @@ func (s *PSNService) GetUserTitles(ctx context.Context, accountId string, option
 }
 
 func (s *PSNService) fetchUserTitles(ctx context.Context, accountId string) (*models.UserTitlesResponse, error) {
+	// get valid token by refresh token
 	auth, err := s.GetValidAuthorization()
+	fmt.Println("accesstoken: ", auth.AccessToken)
 	if err != nil {
 		return nil, err
 	}
