@@ -11,6 +11,7 @@ import (
 	"github.com/camtrik/psn-steam-api/internal/pkg/logger"
 	"github.com/camtrik/psn-steam-api/internal/service/psn"
 	"github.com/camtrik/psn-steam-api/internal/service/steam"
+	"github.com/camtrik/psn-steam-api/internal/service/xbox"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -72,6 +73,9 @@ func main() {
 	steamService := steam.NewSteamService(httpClient, *steamCache, logger, cfg.SteamApiKey)
 	steamHandler := handler.NewSteamHandler(steamService)
 
+	xboxService := xbox.NewXboxService(httpClient, logger, cfg.XboxApiKey)
+	xboxHandler := handler.NewXboxHandler(xboxService)
+
 	r := gin.Default()
 
 	// CORS
@@ -91,6 +95,9 @@ func main() {
 	r.GET("/api/steam/:steamId/playerAchievements/:appId", steamHandler.GetPlayerAchievements)
 	r.GET("/api/steam/:steamId/playerGameDetails", steamHandler.GetPlayerGameDetails)
 	r.GET("/api/steam/:steamId/recentlyPlayed", steamHandler.GetRecentlyPlayedGames)
+
+	// xbox
+	r.GET("/api/xbox/achievements", xboxHandler.GetPlayerAchievements)
 
 	r.Run(":7071")
 
