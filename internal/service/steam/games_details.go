@@ -10,6 +10,18 @@ import (
 	"github.com/camtrik/psn-steam-api/internal/models"
 )
 
+type GameDetails struct {
+	AppId              int
+	Name               string
+	PlayTime           int
+	PlayTime2weeks     int
+	Achieved           int
+	TotalAchievenments int
+	IconUrl            string
+	ArtUrl             string
+	StoreUrl           string
+}
+
 type PlayerGameDetails struct {
 	GameCount int
 	Games     []GameDetails
