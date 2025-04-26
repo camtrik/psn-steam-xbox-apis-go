@@ -34,3 +34,8 @@ const (
 	STEAM_CAPSULE_ART_MEDIUM = "capsule_467x181.jpg"
 	STEAM_CAPSULE_ART_LARGE  = "capsule_616x353.jpg"
 )
+
+// xbox
+const (
+	XBOX_API_BASE_URL = "https://xbl.io/api/v2"
+)

@@ -49,7 +49,9 @@ make run
 
 How to get PSN refresh token: [here](https://www.ebbilogue.com/blog/notes/psn-api-use)
 
-How to get steam api key: [here](https://steamcommunity.com/dev)
+How to get steam api key: [here](https://steamcommunity.com/dev)  
+
+How to get Xbox api key: [here](https://xbl.io/console) (Using OPENXBL for Xbox APIs)
 
 
 ## API Documentation

@@ -11,6 +11,7 @@ type Config struct {
 	SteamApiKey     string
 	RedisUrl        string
 	RedisPassword   string
+	XboxApiKey      string
 }
 
 func Load() *Config {
@@ -29,6 +30,7 @@ func Load() *Config {
 	return &Config{
 		PSNRefreshToken: viper.GetString("PSN_REFRESH_TOKEN"),
 		SteamApiKey:     viper.GetString("STEAM_API_KEY"),
+		XboxApiKey:      viper.GetString("XBOX_API_KEY"),
 		RedisUrl:        viper.GetString("REDIS_URL"),
 		RedisPassword:   viper.GetString("REDIS_PASSWORD"),
 	}
