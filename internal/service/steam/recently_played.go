@@ -21,18 +21,16 @@ func (s *SteamService) GetRecentlyPlayedGames(ctx context.Context, steamId strin
 
 	for _, game := range ownedGames.Response.Games {
 		if game.RTimeLastPlayed > timeStamp {
-			imgIconUrl := fmt.Sprintf("%s/%d/%s.jpg", global.STEAM_ICON_BASE_URL, game.AppId, game.ImgIconUrl)
 			imgArtUrl := fmt.Sprintf("%s/%d/%s", global.STEAM_CAPSULE_BASE_URL, game.AppId, global.STEAM_CAPSULE_ART_LARGE)
 			storeUrl := fmt.Sprintf("%s/%d", global.STEAM_STORE_BASE_URL, game.AppId)
 
 			games = append(games, models.RecentlyPlayedGame{
-				AppId:          game.AppId,
 				Name:           game.Name,
 				PlayTime:       game.PlayTimeForever,
 				LastPlayedTime: game.RTimeLastPlayed,
-				IconUrl:        imgIconUrl,
 				ArtUrl:         imgArtUrl,
 				StoreUrl:       storeUrl,
+				Platform:       "steam",
 			})
 		}
 	}

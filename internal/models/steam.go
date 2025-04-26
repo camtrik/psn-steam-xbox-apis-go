@@ -27,13 +27,3 @@ type PlayerAchievementsResponse struct {
 		Success bool `json:"success"`
 	} `json:"playerstats"`
 }
-
-type RecentlyPlayedGame struct {
-	AppId          int
-	Name           string
-	PlayTime       int
-	LastPlayedTime int64
-	IconUrl        string
-	ArtUrl         string
-	StoreUrl       string
-}

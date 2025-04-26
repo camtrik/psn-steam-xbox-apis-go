@@ -98,6 +98,8 @@ func main() {
 
 	// xbox
 	r.GET("/api/xbox/achievements", xboxHandler.GetPlayerAchievements)
+	r.GET("/api/xbox/achievements/stats/:titleId", xboxHandler.GetGameStats)
+	r.GET("/api/xbox/recentlyPlayed", xboxHandler.GetRecentlyPlayedGames)
 
 	r.Run(":7071")
 
