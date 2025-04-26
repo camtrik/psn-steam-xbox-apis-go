@@ -93,3 +93,14 @@ Query Parameters:
 - `minPlayTime`: Filter games by minimum playtime 
 - `sortByTime`: Sort games by playtime (true/false)
 
+#### GetRecentlyPlayedGames
+```
+http://localhost:7071/api/steam/:steamId/recentlyPlayedGames
+```
+Get user's recently played Steam games.
+
+Query Parameters:
+- `timeRange`: (string) Optional.Time range to filter games played within this timeframe. Available options are
+    - two_weeks: Games played within the last 2 weeks.
+    - one_month: Games played within the last 1 month.
+    - three_months: Games played within the last 3 months.
