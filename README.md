@@ -1,23 +1,27 @@
-# PSN Steam API in Go 
+# PSN & Steam & Xbox APIs in Go 
 
 A backend service aggregating PlayStation Network and Steam gaming data through their official APIs. Provides unified endpoints for tracking game progress, achievements and trophies across platforms.
 
 **Current Status**: 🚧 In active development - Core PSN/Steam integrations working, more features and documentation WIP
 
-> Live Demo using these APIs (frontend [here](https://github.com/camtrik/psn-steam-api-go)): [Gaming Profile](https://www.ebbilogue.com/gaming)
+> Live Demo using these APIs: [Gaming Profile](https://www.ebbilogue.com/gaming)
 
 ## Key Features
 - 📦 PSN user authentication & trophy data fetching 
 - 🎮 Steam game library & achievements tracking
+- ⚔️ Xbox APIs
 - ⚡ Redis caching for high-performance queries
 - 🌉 Cross-platform gaming progress aggregation
 
 ## Development Status
+### 2025/04/25 Xbox APIs
+Integrated Xbox APIs using [OPENXBL](https://xbl.io/)
 
 ### Implemented
 ✅ PSN Authentication & Trophy Title Listing  
 ✅ Steam Game Library Retrieval  
 ✅ Basic Caching Mechanism
+✅ Xbox APIs by [OPENXBL](https://xbl.io/)
 
 ### In Progress
 🛠️ More APIs implementation  
@@ -109,8 +113,9 @@ Query Parameters:
 
 
 ### Xbox Endpoints 
-To use Xbox endpoints, you need to first get an api key from [OPENXBL]()
+To use Xbox endpoints, you need to first get an api key from [OPENXBL](https://xbl.io/)  
 
+Noticed that APIs implemented here only can fetch data from **your own account**. 
 #### GetPlayerAchievements
 ```
 http://localhost:7071/api/xbox/achievements
