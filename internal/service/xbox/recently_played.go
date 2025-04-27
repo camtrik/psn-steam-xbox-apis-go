@@ -56,11 +56,12 @@ func (s *XboxService) GetRecentlyPlayedGames(ctx context.Context, timeRange int6
 
 			mu.Lock()
 			games = append(games, models.RecentlyPlayedGame{
-				Name:           title.Name,
-				PlayTime:       minutesPlayed,
-				LastPlayedTime: lastPlayedTime,
-				ArtUrl:         title.DisplayImage,
-				Platform:       "xbox",
+				Name:               title.Name,
+				PlayTime:           minutesPlayed,
+				LastPlayedTime:     lastPlayedTime,
+				EarnedAchievements: title.Achievement.CurrentAchievements,
+				ArtUrl:             title.DisplayImage,
+				Platform:           "xbox",
 			})
 			mu.Unlock()
 		}(title)

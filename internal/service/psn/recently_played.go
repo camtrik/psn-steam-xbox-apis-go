@@ -26,11 +26,13 @@ func (s *PSNService) GetRecentlyPlayedGames(ctx context.Context, accountId strin
 			continue
 		}
 
+		earnedAchievements := title.DefinedTrophies.Bronze + title.DefinedTrophies.Silver + title.DefinedTrophies.Gold + title.DefinedTrophies.Platinum
 		games = append(games, models.RecentlyPlayedGame{
-			Name:           title.TrophyTitleName,
-			LastPlayedTime: lastPlayedTime,
-			ArtUrl:         title.TrophyTitleIconUrl,
-			Platform:       "psn",
+			Name:               title.TrophyTitleName,
+			LastPlayedTime:     lastPlayedTime,
+			EarnedAchievements: earnedAchievements,
+			ArtUrl:             title.TrophyTitleIconUrl,
+			Platform:           "psn",
 		})
 	}
 
