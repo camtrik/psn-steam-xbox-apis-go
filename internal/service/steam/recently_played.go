@@ -3,7 +3,6 @@ package steam
 import (
 	"context"
 	"fmt"
-	"sort"
 	"time"
 
 	"github.com/camtrik/psn-steam-api/internal/global"
@@ -34,10 +33,6 @@ func (s *SteamService) GetRecentlyPlayedGames(ctx context.Context, steamId strin
 			})
 		}
 	}
-
-	sort.Slice(games, func(i, j int) bool {
-		return games[i].LastPlayedTime > games[j].LastPlayedTime
-	})
 
 	return games, nil
 }

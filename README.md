@@ -12,6 +12,7 @@ A backend service aggregating PlayStation Network and Steam gaming data through 
 - ⚔️ Xbox APIs
 - ⚡ Redis caching for high-performance queries
 - 🌉 Cross-platform gaming progress aggregation
+- 🔄 Unified API for accessing gaming data across all platforms
 
 ## Development Status
 ### 2025/04/25 Xbox APIs
@@ -20,8 +21,9 @@ Integrated Xbox APIs using [OPENXBL](https://xbl.io/)
 ### Implemented
 ✅ PSN Authentication & Trophy Title Listing  
 ✅ Steam Game Library Retrieval  
-✅ Basic Caching Mechanism
-✅ Xbox APIs by [OPENXBL](https://xbl.io/)
+✅ Basic Caching Mechanism  
+✅ Xbox APIs by [OPENXBL](https://xbl.io/)  
+✅ Unified API for all three platforms
 
 ### In Progress
 🛠️ More APIs implementation  
@@ -60,6 +62,24 @@ How to get Xbox api key: [here](https://xbl.io/console) (Using OPENXBL for Xbox 
 
 ## API Documentation
 
+### Unified Endpoints
+
+#### GetAllRecentlyPlayedGames
+```
+http://localhost:7071/api/unified/recentlyPlayed
+```
+Get user's recently played games across all platforms (PSN, Steam, and Xbox). Results are combined and sorted by the most recently played games first.
+
+Query Parameters:
+- `psn_account_id`: (string) Optional. PSN account ID. If not provided, defaults to "me" (your own account).
+- `steam_id`: (string) Optional. Steam ID. If not provided, uses the default Steam ID from the configuration.
+- `time_range`: (string) Optional. Time range to filter games played within this timeframe. Available options are:
+  - two_weeks: Games played within the last 2 weeks.
+  - one_month: Games played within the last 1 month (default).
+  - three_months: Games played within the last 3 months.
+
+This endpoint returns an aggregated list of recently played games from all configured platforms, making it easy to track gaming activity in one place.
+
 ### PSN Endpoints
 
 #### GetUserTitles
@@ -74,6 +94,18 @@ Query Parameters:
 - `platform`: Filter by platform (e.g., PS4, PS5)
 - `minProgress`: Filter by minimum trophy completion percentage
 - `sortBy`: Sort results by ("lastUpdated" or "progress")
+
+#### GetRecentlyPlayedGames
+```
+http://localhost:7071/api/psn/:accountId/recentlyPlayed
+```
+Get user's recently played Steam games.
+
+Query Parameters:
+- `timeRange`: (string) Optional.Time range to filter games played within this timeframe. Available options are
+    - two_weeks: Games played within the last 2 weeks.
+    - one_month: Games played within the last 1 month (default).
+    - three_months: Games played within the last 3 months.
 
 ### Steam Endpoints
 
@@ -108,7 +140,7 @@ Get user's recently played Steam games.
 Query Parameters:
 - `timeRange`: (string) Optional.Time range to filter games played within this timeframe. Available options are
     - two_weeks: Games played within the last 2 weeks.
-    - one_month: Games played within the last 1 month.
+    - one_month: Games played within the last 1 month (default).
     - three_months: Games played within the last 3 months.
 
 
@@ -137,5 +169,5 @@ Get user's recently played Xbox games.
 Query Parameters:
 - `timeRange`: (string) Optional. Time range to filter games played within this timeframe. Available options are:
     - two_weeks: Games played within the last 2 weeks.
-    - one_month: Games played within the last 1 month.
+    - one_month: Games played within the last 1 month (default).
     - three_months: Games played within the last 3 months.

@@ -9,6 +9,7 @@ import (
 	"github.com/camtrik/psn-steam-api/internal/global"
 	"github.com/camtrik/psn-steam-api/internal/handler"
 	"github.com/camtrik/psn-steam-api/internal/pkg/logger"
+	unified "github.com/camtrik/psn-steam-api/internal/service"
 	"github.com/camtrik/psn-steam-api/internal/service/psn"
 	"github.com/camtrik/psn-steam-api/internal/service/steam"
 	"github.com/camtrik/psn-steam-api/internal/service/xbox"
@@ -76,6 +77,9 @@ func main() {
 	xboxService := xbox.NewXboxService(httpClient, logger, cfg.XboxApiKey)
 	xboxHandler := handler.NewXboxHandler(xboxService)
 
+	unifiedService := unified.NewUnifiedGameService(steamService, psnService, xboxService, logger)
+	unifiedHandler := handler.NewUnifiedGameHandler(unifiedService, cfg)
+
 	r := gin.Default()
 
 	// CORS
@@ -101,6 +105,9 @@ func main() {
 	r.GET("/api/xbox/achievements", xboxHandler.GetPlayerAchievements)
 	r.GET("/api/xbox/achievements/stats/:titleId", xboxHandler.GetGameStats)
 	r.GET("/api/xbox/recentlyPlayed", xboxHandler.GetRecentlyPlayedGames)
+
+	// unified
+	r.GET("/api/unified/recentlyPlayed", unifiedHandler.GetRecentlyPlayedGames)
 
 	r.Run(":7071")
 
