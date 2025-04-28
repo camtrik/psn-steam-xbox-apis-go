@@ -61,6 +61,7 @@ func (s *XboxService) GetRecentlyPlayedGames(ctx context.Context, timeRange int6
 				LastPlayedTime:     lastPlayedTime,
 				EarnedAchievements: title.Achievement.CurrentAchievements,
 				ArtUrl:             title.DisplayImage,
+				VArtUrl:            title.DisplayImage,
 				Platform:           "xbox",
 			})
 			mu.Unlock()

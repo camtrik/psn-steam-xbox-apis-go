@@ -32,6 +32,7 @@ func (s *PSNService) GetRecentlyPlayedGames(ctx context.Context, accountId strin
 			LastPlayedTime:     lastPlayedTime,
 			EarnedAchievements: earnedAchievements,
 			ArtUrl:             title.TrophyTitleIconUrl,
+			VArtUrl:            title.TrophyTitleIconUrl,
 			Platform:           "psn",
 		})
 	}

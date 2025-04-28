@@ -7,6 +7,7 @@ type RecentlyPlayedGame struct {
 	PlayTime           int
 	LastPlayedTime     int64
 	ArtUrl             string
+	VArtUrl            string
 	EarnedAchievements int
 	StoreUrl           string
 	Platform           string

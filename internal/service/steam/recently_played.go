@@ -38,6 +38,7 @@ func (s *SteamService) GetRecentlyPlayedGames(ctx context.Context, steamId strin
 				return
 			}
 
+			vImgArtUrl := fmt.Sprintf("%s/%d/%s", global.STEAM_CAPSULE_BASE_URL, game.AppId, global.STEAM_LIBRARY_ART_VERTICAL)
 			imgArtUrl := fmt.Sprintf("%s/%d/%s", global.STEAM_CAPSULE_BASE_URL, game.AppId, global.STEAM_CAPSULE_ART_LARGE)
 			storeUrl := fmt.Sprintf("%s/%d", global.STEAM_STORE_BASE_URL, game.AppId)
 
@@ -48,6 +49,7 @@ func (s *SteamService) GetRecentlyPlayedGames(ctx context.Context, steamId strin
 				LastPlayedTime:     game.RTimeLastPlayed,
 				EarnedAchievements: achieved,
 				ArtUrl:             imgArtUrl,
+				VArtUrl:            vImgArtUrl,
 				StoreUrl:           storeUrl,
 				Platform:           "steam",
 			})
