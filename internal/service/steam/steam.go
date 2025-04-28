@@ -14,12 +14,12 @@ var (
 
 type SteamService struct {
 	client *http.Client
-	cache  cache.RedisSteamCache
+	cache  cache.SteamCache
 	logger logger.Logger
 	apiKey string
 }
 
-func NewSteamService(client *http.Client, cache cache.RedisSteamCache, logger logger.Logger, apiKey string) *SteamService {
+func NewSteamService(client *http.Client, cache cache.SteamCache, logger logger.Logger, apiKey string) *SteamService {
 	return &SteamService{
 		client: client,
 		cache:  cache,
@@ -27,4 +27,3 @@ func NewSteamService(client *http.Client, cache cache.RedisSteamCache, logger lo
 		apiKey: apiKey,
 	}
 }
-

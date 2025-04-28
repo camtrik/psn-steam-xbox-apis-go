@@ -12,6 +12,10 @@ const (
 	PLAYER_ACHIEVEMENTS_KEY = "player_achievements:%s:%s"
 
 	DEFAULT_EXPIRATION = 2 * time.Hour
+
+	// XBOX
+	XBOX_PLAYER_ACHIEVEMENTS_KEY = "xbox_player_achievements"
+	XBOX_PLAYER_GAME_STATS_KEY   = "xbox_player_game_stats:%s"
 )
 
 // PSN

@@ -75,10 +75,11 @@ func main() {
 	psnHandler := handler.NewPSNHandler(psnService)
 
 	steamCache := cache.NewRedisSteamCache(rdb)
-	steamService := steam.NewSteamService(httpClient, *steamCache, logger, cfg.SteamApiKey)
+	steamService := steam.NewSteamService(httpClient, steamCache, logger, cfg.SteamApiKey)
 	steamHandler := handler.NewSteamHandler(steamService)
 
-	xboxService := xbox.NewXboxService(httpClient, logger, cfg.XboxApiKey)
+	xboxCache := cache.NewRedisXboxCache(rdb)
+	xboxService := xbox.NewXboxService(httpClient, logger, xboxCache, cfg.XboxApiKey)
 	xboxHandler := handler.NewXboxHandler(xboxService)
 
 	unifiedService := unified.NewUnifiedGameService(steamService, psnService, xboxService, logger)

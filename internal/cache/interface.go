@@ -17,3 +17,10 @@ type SteamCache interface {
 	GetPlayerAchievements(ctx context.Context, steamId string, appId int) (*models.PlayerAchievementsResponse, error)
 	SetPlayerAchievements(ctx context.Context, steamId string, appId int, playerAchievements *models.PlayerAchievementsResponse) error
 }
+
+type XboxCache interface {
+	GetPlayerAchievements(ctx context.Context) (*models.XboxGamaAchievements, error)
+	SetPlayerAchievements(ctx context.Context, playerAchievements *models.XboxGamaAchievements) error
+	GetGameStats(ctx context.Context, titleId string) (*models.XboxGameStats, error)
+	SetGameStats(ctx context.Context, titleId string, gameStats *models.XboxGameStats) error
+}

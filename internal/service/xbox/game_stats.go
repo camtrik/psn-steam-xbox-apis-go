@@ -10,6 +10,11 @@ import (
 )
 
 func (s *XboxService) GetGameStats(ctx context.Context, titleId string) (models.XboxGameStats, error) {
+	// cache
+	if cached, err := s.cache.GetGameStats(ctx, titleId); err == nil && cached != nil {
+		return *cached, nil
+	}
+
 	url := fmt.Sprintf("%s/achievements/stats/%s", ApiBaseURL, titleId)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -31,6 +36,13 @@ func (s *XboxService) GetGameStats(ctx context.Context, titleId string) (models.
 	if err := json.NewDecoder(resp.Body).Decode(&stats); err != nil {
 		s.logger.Error("Failed to decode xbox game stats %v", err)
 		return models.XboxGameStats{}, err
+	}
+
+	// set cache
+	if err := s.cache.SetGameStats(ctx, titleId, &stats); err != nil {
+		s.logger.Error("Failed to set xbox game stats to cache %v", err)
+	} else {
+		s.logger.Info("Set xbox game stats to cache")
 	}
 
 	return stats, nil

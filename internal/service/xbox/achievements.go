@@ -10,6 +10,11 @@ import (
 )
 
 func (s *XboxService) GetPlayerAchievements(ctx context.Context) (*models.XboxGamaAchievements, error) {
+	// cahce
+	if cached, err := s.cache.GetPlayerAchievements(ctx); err == nil && cached != nil {
+		return cached, nil
+	}
+
 	url := fmt.Sprintf("%s/achievements", ApiBaseURL)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -31,6 +36,13 @@ func (s *XboxService) GetPlayerAchievements(ctx context.Context) (*models.XboxGa
 	if err := json.NewDecoder(resp.Body).Decode(&achievements); err != nil {
 		s.logger.Error("Failed to decode xbox player achievements %v", err)
 		return nil, err
+	}
+
+	// set cache
+	if err := s.cache.SetPlayerAchievements(ctx, &achievements); err != nil {
+		s.logger.Error("Failed to set xbox player achievements to cache %v", err)
+	} else {
+		s.logger.Info("Set xbox player achievements to cache")
 	}
 
 	return &achievements, nil
