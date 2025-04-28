@@ -1,7 +1,12 @@
+// logger/logger.go
 package logger
 
-import "go.uber.org/zap"
+import (
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+)
 
+// Logger defines the basic logging interface.
 type Logger interface {
 	Debug(args ...interface{})
 	Debugf(format string, args ...interface{})
@@ -13,14 +18,34 @@ type Logger interface {
 	Errorf(format string, args ...interface{})
 }
 
+// zapLogger is an implementation of Logger using Zap's SugaredLogger.
 type zapLogger struct {
 	logger *zap.SugaredLogger
 }
 
-func NewLogger(logger *zap.SugaredLogger) Logger {
-	return &zapLogger{
-		logger: logger,
+// NewLogger creates and configures a Zap SugaredLogger with:
+//   - ISO8601 timestamp format
+//   - colored level output
+//   - short caller information (file:line)
+//
+// It returns the logger wrapped in our Logger interface.
+func NewLogger() (Logger, error) {
+	cfg := zap.NewDevelopmentConfig()
+
+	// Use ISO8601 for timestamps
+	cfg.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
+	// Colorize level (INFO, ERROR, etc.) for readability
+	cfg.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+	// Show caller as short file:line
+	cfg.EncoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
+
+	// Build the logger, adding caller and skipping one frame (this function)
+	zapLog, err := cfg.Build(zap.AddCaller(), zap.AddCallerSkip(1))
+	if err != nil {
+		return nil, err
 	}
+
+	return &zapLogger{logger: zapLog.Sugar()}, nil
 }
 
 func (l *zapLogger) Debug(args ...interface{}) {

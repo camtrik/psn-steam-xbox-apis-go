@@ -57,7 +57,11 @@ func main() {
 	}
 	defer zapLogger.Sync()
 
-	logger := logger.NewLogger(zapLogger.Sugar())
+	logger, err := logger.NewLogger()
+	if err != nil {
+		log.Fatalf("Failed to initialize logger: %v", err)
+		os.Exit(1)
+	}
 
 	// testTrophyTitle()
 	cfg := global.Load()
