@@ -97,6 +97,7 @@ func main() {
 	}))
 
 	// psn
+	r.GET("/api/psn/auth/npsso", psnHandler.GetTokensFromNPSSO)
 	r.GET("/api/psn/:accountId/trophyTitles", psnHandler.GetUserTitles)
 	r.GET("/api/psn/:accountId/recentlyPlayed", psnHandler.GetRecentlyPlayedGames)
 

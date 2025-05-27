@@ -112,9 +112,12 @@ func (s *PSNService) GetUserTitles(ctx context.Context, accountId string, option
 func (s *PSNService) fetchUserTitles(ctx context.Context, accountId string) (*models.UserTitlesResponse, error) {
 	// get valid token by refresh token
 	auth, err := s.GetValidAuthorization()
-	fmt.Println("accesstoken: ", auth.AccessToken)
 	if err != nil {
 		return nil, err
+	}
+
+	if auth == nil || auth.AccessToken == "" {
+		return nil, fmt.Errorf("failed to get valid authorization token")
 	}
 
 	baseURL := fmt.Sprintf("%s/v1/users/%s/trophyTitles", TrophyBaseURL, accountId)

@@ -99,7 +99,7 @@ Query Parameters:
 ```
 http://localhost:7071/api/psn/:accountId/recentlyPlayed
 ```
-Get user's recently played Steam games.
+Get user's recently played PSN games.
 
 Query Parameters:
 - `timeRange`: (string) Optional.Time range to filter games played within this timeframe. Available options are
