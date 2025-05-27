@@ -53,7 +53,15 @@ cp .env.example .env
 make run 
 ```
 
-How to get PSN refresh token: [here](https://www.ebbilogue.com/blog/notes/psn-api-use)
+How to get PSN refresh token: [here](https://www.ebbilogue.com/blog/notes/psn-api-use).   
+Or directly use the endpoint `GetRefreshTokenByNPSSO` By your NPSSO.  
+How to get PSN NPSSO:  
+- 1, Access to  https://www.playstation.com/.  
+- 2, Sign in by your PSN account.  
+- 3, Access to https://ca.account.sony.com/api/v1/ssocookie in the same browser.  
+- 4, Copy the 64 characters' NPSSO.  
+
+Then access to the endpoint `GetRefreshTokenByNPSSO` after you run the project locally.
 
 How to get steam api key: [here](https://steamcommunity.com/dev)  
 
@@ -81,6 +89,21 @@ Query Parameters:
 This endpoint returns an aggregated list of recently played games from all configured platforms, making it easy to track gaming activity in one place.
 
 ### PSN Endpoints
+
+#### GetRefreshTokenByNPSSO
+```
+http://localhost:7071/api/psn/auth/npsso
+```
+
+Body: 
+```
+{
+  "npsso": "YOUR_NPSSO"
+}
+```
+
+This endpoint returns your access token and refresh token. 
+
 
 #### GetUserTitles
 ```
